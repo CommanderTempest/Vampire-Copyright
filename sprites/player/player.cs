@@ -24,20 +24,16 @@ public partial class Player : CharacterBody2D
 		attackTimer = GetNode<Timer>("Timer");
 
 		attackArea.Monitoring = false;
-		attackArea.Position = Vector2.Zero;
+		attackArea.Position = new Vector2(AttackDistance, 0);
+		slashSprite.Position = new Vector2(AttackDistance, 0);
 		slashSprite.Visible = false;
-		slashSprite.Position = Vector2.Zero;
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 
-		if (!attacking)
-			Velocity = direction * Speed;
-		else
-			Velocity = Vector2.Zero;
-
+		Velocity = attacking ? Vector2.Zero : direction * Speed;
 		MoveAndSlide();
 	}
 
@@ -52,14 +48,18 @@ public partial class Player : CharacterBody2D
 		attacking = true;
 
 		Vector2 mouseDirection = (GetGlobalMousePosition() - GlobalPosition).Normalized();
-
 		if (mouseDirection == Vector2.Zero)
 			mouseDirection = Vector2.Right;
 
 		attackPivot.Rotation = mouseDirection.Angle();
 
+		attackArea.Position = new Vector2(AttackDistance, 0);
+		slashSprite.Position = new Vector2(AttackDistance, 0);
+
 		attackArea.Monitoring = true;
 		slashSprite.Visible = true;
+
+		GD.Print("Attack shown");
 
 		attackTimer.Start();
 		await ToSignal(attackTimer, Timer.SignalName.Timeout);
@@ -80,16 +80,16 @@ public partial class Player : CharacterBody2D
 
 	private void Die()
 	{
-		GetParent().Call("show_game_over");
+		GetParent().Call("ShowGameOver");
 		QueueFree();
 	}
 
-	private void _on_attack_area_body_entered(Node body)
+private void OnAttackAreaBodyEntered(Node body)
+{
+	if (body.Name == "Enemy")
 	{
-		if (body.Name == "Enemy")
-		{
-			GetParent().Call("add_score", 1);
-			body.QueueFree();
-		}
+		GetParent().Call("AddScore", 1);
+		body.QueueFree();
 	}
+}
 }

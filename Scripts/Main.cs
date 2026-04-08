@@ -19,14 +19,25 @@ public partial class Main : Node2D
 		finalScoreLabel = GetNode<Label>("UI/GameOverPanel/VBoxContainer/FinalScoreLabel");
 		spawnTimer = GetNode<Timer>("SpawnTimer");
 
+		GD.Print("Main ready");
+		GD.Print("EnemyScene assigned: ", EnemyScene != null);
+
 		UpdateScore();
 		gameOverPanel.Visible = false;
 	}
 
 	private void OnSpawnTimerTimeout()
 	{
+		GD.Print("Spawn timer fired");
+
 		if (gameOver)
 			return;
+
+		if (EnemyScene == null)
+		{
+			GD.Print("EnemyScene is NULL");
+			return;
+		}
 
 		Node2D enemy = EnemyScene.Instantiate<Node2D>();
 		enemy.GlobalPosition = new Vector2(
@@ -35,6 +46,7 @@ public partial class Main : Node2D
 		);
 
 		AddChild(enemy);
+		GD.Print("Enemy spawned");
 	}
 
 	public void AddScore(int amount)
@@ -66,6 +78,6 @@ public partial class Main : Node2D
 
 	private void OnMenuButtonPressed()
 	{
-		GetTree().ChangeSceneToFile("res://main_menu.tscn");
+		GetTree().ChangeSceneToFile("res://environment/Scenes/mainmenu.tscn");
 	}
 }
