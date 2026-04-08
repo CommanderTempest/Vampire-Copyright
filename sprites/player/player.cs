@@ -2,9 +2,8 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-	[Export] public float Speed = 200.0f;
+	[Export] public float Speed = 500.0f;
 	[Export] public int MaxHp = 3;
-	[Export] public float AttackDistance = 40.0f;
 
 	private int hp;
 	private bool attacking = false;
@@ -24,8 +23,8 @@ public partial class Player : CharacterBody2D
 		attackTimer = GetNode<Timer>("Timer");
 
 		attackArea.Monitoring = false;
-		attackArea.Position = new Vector2(AttackDistance, 0);
-		slashSprite.Position = new Vector2(AttackDistance, 0);
+
+		// 🔥 IMPORTANT: start hidden
 		slashSprite.Visible = false;
 	}
 
@@ -51,10 +50,8 @@ public partial class Player : CharacterBody2D
 		if (mouseDirection == Vector2.Zero)
 			mouseDirection = Vector2.Right;
 
+		// ONLY rotate pivot → keeps your exact Inspector transformation
 		attackPivot.Rotation = mouseDirection.Angle();
-
-		attackArea.Position = new Vector2(AttackDistance, 0);
-		slashSprite.Position = new Vector2(AttackDistance, 0);
 
 		attackArea.Monitoring = true;
 		slashSprite.Visible = true;
@@ -69,7 +66,7 @@ public partial class Player : CharacterBody2D
 		attacking = false;
 	}
 
-	public void take_damage(int amount)
+	public void TakeDamage(int amount)
 	{
 		hp -= amount;
 		GD.Print("Player HP: ", hp);
@@ -84,12 +81,12 @@ public partial class Player : CharacterBody2D
 		QueueFree();
 	}
 
-private void OnAttackAreaBodyEntered(Node body)
-{
-	if (body.Name == "Enemy")
+	private void OnAttackAreaBodyEntered(Node body)
 	{
-		GetParent().Call("AddScore", 1);
-		body.QueueFree();
+		if (body.Name == "Enemy")
+		{
+			GetParent().Call("AddScore", 1);
+			body.QueueFree();
+		}
 	}
-}
 }

@@ -255,7 +255,6 @@ wait_time = 0.2
 one_shot = true
 
 [node name="AttackPivot" type="Node2D" parent="Player" unique_id=889138350]
-visible = false
 
 [node name="AttackArea" type="Area2D" parent="Player/AttackPivot" unique_id=890367495]
 position = Vector2(269, -1)
@@ -266,11 +265,10 @@ position = Vector2(3, -42)
 shape = SubResource("RectangleShape2D_lquwl")
 
 [node name="SlashSprite" type="Sprite2D" parent="Player/AttackPivot" unique_id=984243124]
-position = Vector2(123, -45)
+position = Vector2(278.3581, -39.020535)
 rotation = 0.061086528
-scale = Vector2(0.3054492, 0.10663427)
+scale = Vector2(0.3212315, 0.123780005)
 texture = ExtResource("3_lquwl")
-offset = Vector2(500, 0)
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=1372638853]
 
