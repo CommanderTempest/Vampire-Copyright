@@ -46,6 +46,8 @@ scale = Vector2(0.326157, 0.1736458)
 texture = ExtResource("3_lquwl")
 offset = Vector2(500, 0)
 
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1372638853]
+
 [node name="SpawnTimer" type="Timer" parent="." unique_id=952542637]
 wait_time = 2.0
 autostart = true
