@@ -1,10 +1,25 @@
 [gd_scene format=3 uid="uid://ba1jkiahfxkfr"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_6w285"]
+[ext_resource type="Script" uid="uid://c7pjbikv6earj" path="res://Scripts/WorldGen.cs" id="1_wbv0k"]
 
-[node name="Test Scene" type="Node2D" unique_id=425486816]
+[sub_resource type="Gradient" id="Gradient_0mf7b"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.42168674, 0.55421686, 0.8795181)
+colors = PackedColorArray(0.46383798, 0.63531154, 1, 1, 0.8570715, 0.85244846, 1.1551381e-06, 1, 0, 0.59651214, 0, 1, 0.54393095, 0.4396648, 3.85046e-07, 1)
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1570971259]
-position = Vector2(469.74997, 194.75)
-scale = Vector2(940.49994, 390.5)
-mesh = SubResource("BoxMesh_6w285")
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_wbpk8"]
+seed = 5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_b318q"]
+noise = SubResource("FastNoiseLite_wbpk8")
+color_ramp = SubResource("Gradient_0mf7b")
+
+[sub_resource type="TileSet" id="TileSet_f18pv"]
+
+[node name="Test World Gen" type="Node2D" unique_id=425486816]
+script = ExtResource("1_wbv0k")
+noise = SubResource("NoiseTexture2D_b318q")
+
+[node name="TileMap" type="TileMap" parent="." unique_id=1556458159]
+tile_set = SubResource("TileSet_f18pv")
+format = 2

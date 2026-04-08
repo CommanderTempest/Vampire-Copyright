@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ct5l2wqgo5voq"]
 
-[ext_resource type="Script" uid="uid://brsasdb3vhy8d" path="res://Scripts/mainmenu.gd" id="1_pposm"]
+[ext_resource type="Script" uid="uid://q87qa3p7kmfv" path="res://Scripts/MainMenu.cs" id="1_pposm"]
 
 [node name="Control" type="Control" unique_id=1688593653]
 layout_mode = 3
@@ -37,5 +37,5 @@ text = "Start"
 layout_mode = 2
 text = "Quit"
 
-[connection signal="pressed" from="MenuBox/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="MenuBox/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="MenuBox/StartButton" to="." method="OnStartButtonPressed"]
+[connection signal="pressed" from="MenuBox/QuitButton" to="." method="OnQuitButtonPressed"]
