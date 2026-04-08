@@ -21,8 +21,12 @@ public partial class Main : Node2D
 
 		GD.Print("Main ready");
 		GD.Print("EnemyScene assigned: ", EnemyScene != null);
+		GD.Print("GameOverPanel found: ", gameOverPanel != null);
+		GD.Print("FinalScoreLabel found: ", finalScoreLabel != null);
 
 		UpdateScore();
+
+		// change this to true TEMPORARILY to test if the panel can be seen
 		gameOverPanel.Visible = false;
 	}
 
@@ -65,10 +69,14 @@ public partial class Main : Node2D
 
 	public void ShowGameOver()
 	{
+		GD.Print("SHOW GAME OVER CALLED");
+
 		gameOver = true;
 		spawnTimer.Stop();
 		finalScoreLabel.Text = "Score: " + score;
 		gameOverPanel.Visible = true;
+
+		GD.Print("GameOverPanel visible: ", gameOverPanel.Visible);
 
 		foreach (Node child in GetChildren())
 		{
