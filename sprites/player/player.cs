@@ -78,6 +78,8 @@ public partial class Player : CharacterBody2D
 	private void Die()
 	{
 		GetParent().Call("ShowGameOver");
+		SetPhysicsProcess(false);
+		Visible = false;
 		QueueFree();
 	}
 

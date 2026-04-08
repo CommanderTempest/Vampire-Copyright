@@ -10,12 +10,12 @@ public partial class Enemy : CharacterBody2D
 
 	public override void _Ready()
 	{
-		player = GetTree().CurrentScene.GetNode<Node2D>("Player");
+		player = GetTree().CurrentScene.GetNodeOrNull<Node2D>("Player");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (player == null)
+		if (!IsInstanceValid(player))
 			return;
 
 		Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
@@ -25,7 +25,7 @@ public partial class Enemy : CharacterBody2D
 
 	private async void OnHitboxBodyEntered(Node body)
 	{
-	if (body.HasMethod("TakeDamage") && canDamage)
+		if (body.HasMethod("TakeDamage") && canDamage)
 		{
 			canDamage = false;
 			body.Call("TakeDamage", Damage);
