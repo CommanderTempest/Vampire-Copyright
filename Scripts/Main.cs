@@ -69,6 +69,12 @@ public partial class Main : Node2D
 		spawnTimer.Stop();
 		finalScoreLabel.Text = "Score: " + score;
 		gameOverPanel.Visible = true;
+
+		foreach (Node child in GetChildren())
+		{
+			if (child is Enemy enemy)
+				enemy.SetPhysicsProcess(false);
+		}
 	}
 
 	private void OnRestartButtonPressed()
