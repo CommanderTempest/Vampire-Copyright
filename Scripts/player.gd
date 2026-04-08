@@ -62,7 +62,8 @@ func take_damage(amount):
 		die()
 
 func die():
-	get_tree().reload_current_scene()
+	get_parent().show_game_over()
+	queue_free()
 
 func _on_attack_area_body_entered(body):
 	if body.name == "Enemy":
