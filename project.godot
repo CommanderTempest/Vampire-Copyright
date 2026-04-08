@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Hunter Prototype"
+config/name="Vampire Copyright"
 run/main_scene="uid://ct5l2wqgo5voq"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
