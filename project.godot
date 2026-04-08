@@ -18,6 +18,14 @@ config/icon="res://icon.svg"
 
 project/assembly_name="Vampire Coyprint"
 
+[file_customization]
+
+folder_colors={
+"res://Assets/": "red",
+"res://Scenes/": "yellow",
+"res://Scripts/": "purple"
+}
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
