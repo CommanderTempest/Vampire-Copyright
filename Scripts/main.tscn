@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://dg0as2ds71fm0"]
 
-[ext_resource type="Script" uid="uid://cl1sj5dks5y07" path="res://player.gd" id="1_0xm2m"]
-[ext_resource type="Script" uid="uid://b3t1vhw4gvjop" path="res://main.gd" id="1_lquwl"]
+[ext_resource type="Script" uid="uid://cl1sj5dks5y07" path="res://Scripts/player.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://b3t1vhw4gvjop" path="res://Scripts/main.gd" id="1_lquwl"]
 [ext_resource type="Texture2D" uid="uid://cmrtjopdyvklk" path="res://icon.svg" id="2_h2yge"]
 [ext_resource type="Texture2D" uid="uid://cbu6jfa065glj" path="res://slash.png" id="3_lquwl"]
-[ext_resource type="PackedScene" uid="uid://cs6bi0xt8sdm1" path="res://enemy.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://cs6bi0xt8sdm1" path="res://Scenes/enemy.tscn" id="4_1bvp3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
 size = Vector2(128, 128)
