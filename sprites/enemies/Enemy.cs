@@ -25,10 +25,10 @@ public partial class Enemy : CharacterBody2D
 
 	private async void OnHitboxBodyEntered(Node body)
 	{
-		if (body.HasMethod("take_damage") && canDamage)
+	if (body.HasMethod("TakeDamage") && canDamage)
 		{
 			canDamage = false;
-			body.Call("take_damage", Damage);
+			body.Call("TakeDamage", Damage);
 			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 			canDamage = true;
 		}

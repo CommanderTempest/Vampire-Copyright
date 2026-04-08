@@ -21,6 +21,7 @@ position = Vector2(2, 0)
 shape = SubResource("RectangleShape2D_h2yge")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1104990345]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=593220754]
 shape = SubResource("RectangleShape2D_7mycd")

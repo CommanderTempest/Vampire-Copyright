@@ -38,7 +38,7 @@ public partial class Player : CharacterBody2D
 
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("ui_accept") && !attacking)
+		if (Input.IsActionJustPressed("attack") && !attacking)
 			Attack();
 	}
 
