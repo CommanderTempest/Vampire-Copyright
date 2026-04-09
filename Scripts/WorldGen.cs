@@ -10,19 +10,19 @@ public partial class WorldGen : Node2D
     public TileMap tile_map;
 
     public int source_id = 0;
-    public Vector2I water_atlas;
-    public Vector2I land_atlas;
+    public Vector2I water_atlas = new Vector2I(1,0);
+    public Vector2I land_atlas = new Vector2I(0,0);
 
-    public int width = 100;
-    public int height = 100;
+    public int width = 500;
+    public int height = 500;
 
-    private float[] noise_val_array;
     private Noise noise;
 
     public void _ready()
     {
         this.tile_map = GetNode<TileMap>("TileMap");
         this.noise = this.noise_texture.Noise;
+        this.generate_map();
     }
 
     public void generate_map()
@@ -40,7 +40,6 @@ public partial class WorldGen : Node2D
                 {
                     tile_map.SetCell(0, new Vector2I(i,x), source_id, water_atlas);
                 }
-                noise_val_array.Append(noise_value);
             }
             
         }
