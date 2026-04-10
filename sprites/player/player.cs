@@ -8,6 +8,8 @@ public partial class Player : CharacterBody2D
 	private int hp;
 	private bool attacking = false;
 
+	private Tween tween;
+
 	private Node2D attackPivot;
 	private Area2D attackArea;
 	private Sprite2D slashSprite;
@@ -82,7 +84,13 @@ public partial class Player : CharacterBody2D
 	
 	private void updateHealthUI()
 	{
-		healthBar.Value = this.hp;
+		Tween tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
+		if (tween != null)
+		{
+			tween.Kill();
+		}
+		tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
+		tween.TweenProperty(healthBar, "value", this.hp, 1);
 	}
 
 	private void Die()
