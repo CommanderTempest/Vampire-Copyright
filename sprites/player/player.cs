@@ -12,6 +12,7 @@ public partial class Player : CharacterBody2D
 	private Area2D attackArea;
 	private Sprite2D slashSprite;
 	private Timer attackTimer;
+	private TextureProgressBar healthBar;
 
 	public override void _Ready()
 	{
@@ -21,11 +22,15 @@ public partial class Player : CharacterBody2D
 		attackArea = GetNode<Area2D>("AttackPivot/AttackArea");
 		slashSprite = GetNode<Sprite2D>("AttackPivot/SlashSprite");
 		attackTimer = GetNode<Timer>("Timer");
+		healthBar = GetNode<TextureProgressBar>("../UI/HealthBar");
+		healthBar.MaxValue = MaxHp;
+		healthBar.Value = hp;
 
 		attackArea.Monitoring = false;
 
 		// 🔥 IMPORTANT: start hidden
 		slashSprite.Visible = false;
+		healthBar.Visible = true;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -70,9 +75,14 @@ public partial class Player : CharacterBody2D
 	{
 		hp -= amount;
 		GD.Print("Player HP: ", hp);
+		updateHealthUI();
 
-		if (hp <= 0)
-			Die();
+		if (hp <= 0) {Die();}
+	}
+	
+	private void updateHealthUI()
+	{
+		healthBar.Value = this.hp;
 	}
 
 	private void Die()

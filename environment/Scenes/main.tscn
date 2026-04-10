@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://cs6bi0xt8sdm1" path="res://environment/Scenes/enemy.tscn" id="4_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://cu5cickw43rvq" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Idle_with_shadow.png" id="5_5ybq2"]
 [ext_resource type="Texture2D" uid="uid://da40ftif6anty" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Walk_with_shadow.png" id="6_p8xec"]
+[ext_resource type="Texture2D" uid="uid://3hl3wuc6exf" path="res://Assets/HealthBarEmpty32.png" id="7_25lod"]
+[ext_resource type="Texture2D" uid="uid://b6rebp6mn4788" path="res://Assets/HealthBarFull32.png" id="8_ye0l1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
 size = Vector2(73, 47)
@@ -346,6 +348,15 @@ text = "Restart"
 [node name="MenuButton" type="Button" parent="UI/GameOverPanel/VBoxContainer" unique_id=419425454]
 layout_mode = 2
 text = "Main Menu"
+
+[node name="HealthBar" type="TextureProgressBar" parent="UI" unique_id=335103791]
+offset_left = -2.999999
+offset_top = 496.0
+offset_right = 37.0
+offset_bottom = 536.0
+scale = Vector2(7, 7)
+texture_under = ExtResource("7_25lod")
+texture_progress = ExtResource("8_ye0l1")
 
 [connection signal="body_entered" from="Player/AttackPivot/AttackArea" to="Player" method="OnAttackAreaBodyEntered"]
 [connection signal="timeout" from="SpawnTimer" to="." method="OnSpawnTimerTimeout"]
