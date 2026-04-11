@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dg0as2ds71fm0"]
 
-[ext_resource type="Script" uid="uid://gmkx4bljyw1e" path="res://sprites/player/Player.cs" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://gmkx4bljyw1e" path="res://sprites/player/player.cs" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bqb1mnkjn7u06" path="res://Scripts/Main.cs" id="1_w8jw1"]
 [ext_resource type="Texture2D" uid="uid://cbu6jfa065glj" path="res://slash.png" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://cs6bi0xt8sdm1" path="res://environment/Scenes/enemy.tscn" id="4_1bvp3"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://da40ftif6anty" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Walk_with_shadow.png" id="6_p8xec"]
 [ext_resource type="Texture2D" uid="uid://3hl3wuc6exf" path="res://Assets/HealthBarEmpty32.png" id="7_25lod"]
 [ext_resource type="Texture2D" uid="uid://b6rebp6mn4788" path="res://Assets/HealthBarFull32.png" id="8_ye0l1"]
+[ext_resource type="PackedScene" uid="uid://ba1jkiahfxkfr" path="res://environment/Scenes/test_scene.tscn" id="9_ye0l1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
 size = Vector2(73, 47)
@@ -244,6 +245,7 @@ script = ExtResource("1_w8jw1")
 EnemyScene = ExtResource("4_1bvp3")
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1002955296]
+z_index = 5
 collision_mask = 2
 script = ExtResource("1_0xm2m")
 
@@ -357,6 +359,8 @@ offset_bottom = 536.0
 scale = Vector2(7, 7)
 texture_under = ExtResource("7_25lod")
 texture_progress = ExtResource("8_ye0l1")
+
+[node name="Test World Gen" parent="." unique_id=425486816 instance=ExtResource("9_ye0l1")]
 
 [connection signal="body_entered" from="Player/AttackPivot/AttackArea" to="Player" method="OnAttackAreaBodyEntered"]
 [connection signal="timeout" from="SpawnTimer" to="." method="OnSpawnTimerTimeout"]

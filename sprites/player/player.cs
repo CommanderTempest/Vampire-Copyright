@@ -1,6 +1,9 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using Godot;
 
-public partial class Player : CharacterBody2D
+public partial class player : CharacterBody2D
 {
 	[Export] public float Speed = 500.0f;
 	[Export] public int MaxHp = 3;
@@ -15,6 +18,7 @@ public partial class Player : CharacterBody2D
 	private Sprite2D slashSprite;
 	private Timer attackTimer;
 	private TextureProgressBar healthBar;
+	private ArrayList power_list;
 
 	public override void _Ready()
 	{
@@ -29,6 +33,7 @@ public partial class Player : CharacterBody2D
 		healthBar.Value = hp;
 
 		attackArea.Monitoring = false;
+		power_list = new ArrayList(); // TODO: figure out some other C# collection that allows dynamic sizing
 
 		// 🔥 IMPORTANT: start hidden
 		slashSprite.Visible = false;
@@ -39,14 +44,34 @@ public partial class Player : CharacterBody2D
 	{
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 
-		Velocity = attacking ? Vector2.Zero : direction * Speed;
+		// tentatively deleted this, why should the player stop moving for attacks
+		//Velocity = attacking ? Vector2.Zero : direction * Speed;
+		Velocity = direction * Speed;
 		MoveAndSlide();
+		updateEveryPower();
 	}
 
 	public override void _Process(double delta)
 	{
 		if (Input.IsActionJustPressed("attack") && !attacking)
 			Attack();
+	}
+
+	public void pickup_power(Power power)
+	{
+		power_list.Add(power);
+		power.execute_on_pickup();
+	}
+
+	private void updateEveryPower()
+    {
+        foreach (Power pow in power_list)
+		{
+			if (pow.execute_every_tick)
+			{
+				pow.update();
+			}
+		}
 	}
 
 	private async void Attack()
