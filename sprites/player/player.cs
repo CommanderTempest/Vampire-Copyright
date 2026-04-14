@@ -7,7 +7,6 @@ public partial class player : CharacterBody2D
 {
 	[Export] public float Speed = 500.0f;
 
-	private int hp;
 	private bool attacking = false;
 
 	private Tween tween;
@@ -28,8 +27,7 @@ public partial class player : CharacterBody2D
 		slashSprite = GetNode<Sprite2D>("AttackPivot/SlashSprite");
 		attackTimer = GetNode<Timer>("Timer");
 		healthBar = GetNode<TextureProgressBar>("../UI/HealthBar");
-		healthBar.Value = hp;
-		healthComponent = new HealthComponent(); // TODO: change to grab the node
+		healthComponent = GetNode<HealthComponent>("HealthComponent"); 
 
 		attackArea.Monitoring = false;
 		power_list = new ArrayList(); // TODO: figure out some other C# collection that allows dynamic sizing
@@ -100,7 +98,7 @@ public partial class player : CharacterBody2D
 	public void TakeDamage(int amount)
 	{
 		this.healthComponent.reduceHealth(amount);
-		GD.Print("Player HP: ", hp);
+		GD.Print(this.healthComponent.getHealth());
 		//updateHealthUI();
 
 		if (this.healthComponent.getHealth() <= 0) {Die();}

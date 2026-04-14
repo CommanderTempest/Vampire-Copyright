@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cu5cickw43rvq" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Idle_with_shadow.png" id="5_5ybq2"]
 [ext_resource type="Texture2D" uid="uid://da40ftif6anty" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Walk_with_shadow.png" id="6_p8xec"]
 [ext_resource type="Texture2D" uid="uid://3hl3wuc6exf" path="res://Assets/HealthBarEmpty32.png" id="7_25lod"]
+[ext_resource type="Script" uid="uid://jnqfgh4cl8u3" path="res://Scripts/Components/HealthComponent.cs" id="7_mkuwi"]
 [ext_resource type="Texture2D" uid="uid://b6rebp6mn4788" path="res://Assets/HealthBarFull32.png" id="8_ye0l1"]
 [ext_resource type="PackedScene" uid="uid://ba1jkiahfxkfr" path="res://environment/Scenes/test_scene.tscn" id="9_ye0l1"]
 
@@ -301,6 +302,9 @@ metadata/_aseprite_wizard_interface_config_ = {
 },
 "slice_section": false
 }
+
+[node name="HealthComponent" type="Node" parent="Player" unique_id=836260883]
+script = ExtResource("7_mkuwi")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=952542637]
 wait_time = 2.0
