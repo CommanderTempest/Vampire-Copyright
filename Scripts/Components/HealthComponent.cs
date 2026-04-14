@@ -3,6 +3,9 @@ using Godot;
 
 public partial class HealthComponent : Node
 {
+    [Signal]
+    public delegate void ChangeHealthEventHandler(int hp);
+
     [Export]
     public int MAX_HEALTH = 10;
 
@@ -21,6 +24,7 @@ public partial class HealthComponent : Node
     public void reduceHealth(int healthToReduceBy)
     {
         this.current_health -= healthToReduceBy;
+        EmitSignal(SignalName.ChangeHealth, this.current_health); // Intended to fire so that a UI component picks it up and changes
     }
 
     public int getHealth()

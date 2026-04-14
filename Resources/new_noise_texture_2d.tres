@@ -5,7 +5,7 @@ interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.55421686)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_wbpk8"]
-seed = 5
+seed = 6
 
 [resource]
 noise = SubResource("FastNoiseLite_wbpk8")
