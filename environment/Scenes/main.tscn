@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://da40ftif6anty" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Walk_with_shadow.png" id="6_p8xec"]
 [ext_resource type="Script" uid="uid://jnqfgh4cl8u3" path="res://Scripts/Components/HealthComponent.cs" id="7_mkuwi"]
 [ext_resource type="Script" uid="uid://dev245cp7tuxf" path="res://Scripts/Components/HealthUiComponent.cs" id="8_6rpkl"]
+[ext_resource type="Script" uid="uid://3b7n28c0i2ne" path="res://Scripts/Powers/ShieldPower.cs" id="9_mkuwi"]
 [ext_resource type="PackedScene" uid="uid://ba1jkiahfxkfr" path="res://environment/Scenes/test_scene.tscn" id="9_ye0l1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
@@ -307,6 +308,9 @@ script = ExtResource("7_mkuwi")
 
 [node name="HealthUiComponent" type="Node2D" parent="Player" unique_id=1709853325]
 script = ExtResource("8_6rpkl")
+
+[node name="Node2D" type="Node2D" parent="Player" unique_id=1124092850]
+script = ExtResource("9_mkuwi")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=952542637]
 wait_time = 2.0

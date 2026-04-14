@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public abstract partial class Power : Node
+public abstract partial class Power : Node2D
 {
     public bool execute_every_tick = false;   // Whether or not this Power executes every tick
 

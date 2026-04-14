@@ -19,6 +19,18 @@ public partial class Player : CharacterBody2D
 
 	private HealthComponent healthComponent;
 	private HealthUiComponent healthUIComponent;
+	private ShieldPower shieldPower;
+
+	private bool shieldPowerActive {
+		get => shieldPowerActive;
+		set
+		{
+			if (value == false)
+			{
+				this.shieldPower.shieldDeactivate();
+			}
+		} 
+	}
 
 	public override void _Ready()
 	{
@@ -31,6 +43,8 @@ public partial class Player : CharacterBody2D
 
 		// 🔥 IMPORTANT: start hidden
 		slashSprite.Visible = false;
+
+		this.pickup_power(new ShieldPower());
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -41,7 +55,6 @@ public partial class Player : CharacterBody2D
 		//Velocity = attacking ? Vector2.Zero : direction * Speed;
 		Velocity = direction * Speed;
 		MoveAndSlide();
-		updateEveryPower();
 	}
 
 	public override void _Process(double delta)
@@ -63,19 +76,18 @@ public partial class Player : CharacterBody2D
 
 	public void pickup_power(Power power)
 	{
+		if (power is ShieldPower)
+		{
+			this.shieldPower = (ShieldPower) power;
+			this.shieldPower.ShieldActivate += activateShield;
+		}
 		power_list.Add(power);
-		power.execute_on_pickup();
 	}
 
-	private void updateEveryPower()
+	private void activateShield()
 	{
-		// foreach (Power pow in power_list)
-		// {
-		// 	if (pow.execute_every_tick)
-		// 	{
-		// 		pow.update();
-		// 	}
-		// }
+		GD.Print("attempting to turn on at least");
+		this.shieldPowerActive = true;
 	}
 
 	private async void Attack()
@@ -104,11 +116,20 @@ public partial class Player : CharacterBody2D
 
 	public void TakeDamage(int amount)
 	{
-		this.healthComponent.reduceHealth(amount);
-		GD.Print(this.healthComponent.getHealth());
-		this.healthUIComponent.changeHealthUI(this.healthComponent.getHealth());
+		if (!this.shieldPowerActive)
+		{
+			this.healthComponent.reduceHealth(amount);
+			GD.Print(this.healthComponent.getHealth());
+			this.healthUIComponent.changeHealthUI(this.healthComponent.getHealth());
 
-		if (this.healthComponent.getHealth() <= 0) {Die();}
+			if (this.healthComponent.getHealth() <= 0) {Die();}
+		}
+		else
+		{
+			GD.Print("Shield Power blocked an attack");
+			this.shieldPowerActive = false;
+		}
+		
 	}
 
 	private void Die()
