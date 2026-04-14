@@ -23,6 +23,7 @@ public partial class Enemy : CharacterBody2D
 		MoveAndSlide();
 	}
 
+	// this is a signal placed on the Engine
 	private async void OnHitboxBodyEntered(Node body)
 	{
 		if (body.HasMethod("TakeDamage") && canDamage)

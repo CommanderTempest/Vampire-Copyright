@@ -6,7 +6,6 @@ using Godot;
 public partial class player : CharacterBody2D
 {
 	[Export] public float Speed = 500.0f;
-	[Export] public int MaxHp = 3;
 
 	private int hp;
 	private bool attacking = false;
@@ -20,17 +19,17 @@ public partial class player : CharacterBody2D
 	private TextureProgressBar healthBar;
 	private ArrayList power_list;
 
+	private HealthComponent healthComponent;
+
 	public override void _Ready()
 	{
-		hp = MaxHp;
-
 		attackPivot = GetNode<Node2D>("AttackPivot");
 		attackArea = GetNode<Area2D>("AttackPivot/AttackArea");
 		slashSprite = GetNode<Sprite2D>("AttackPivot/SlashSprite");
 		attackTimer = GetNode<Timer>("Timer");
 		healthBar = GetNode<TextureProgressBar>("../UI/HealthBar");
-		healthBar.MaxValue = MaxHp;
 		healthBar.Value = hp;
+		healthComponent = new HealthComponent(); // TODO: change to grab the node
 
 		attackArea.Monitoring = false;
 		power_list = new ArrayList(); // TODO: figure out some other C# collection that allows dynamic sizing
@@ -100,23 +99,23 @@ public partial class player : CharacterBody2D
 
 	public void TakeDamage(int amount)
 	{
-		hp -= amount;
+		this.healthComponent.reduceHealth(amount);
 		GD.Print("Player HP: ", hp);
-		updateHealthUI();
+		//updateHealthUI();
 
-		if (hp <= 0) {Die();}
+		if (this.healthComponent.getHealth() <= 0) {Die();}
 	}
 	
-	private void updateHealthUI()
-	{
-		Tween tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
-		if (tween != null)
-		{
-			tween.Kill();
-		}
-		tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
-		tween.TweenProperty(healthBar, "value", this.hp, 1);
-	}
+	// private void updateHealthUI()
+	// {
+	// 	Tween tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
+	// 	if (tween != null)
+	// 	{
+	// 		tween.Kill();
+	// 	}
+	// 	tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
+	// 	tween.TweenProperty(healthBar, "value", this.hp, 1);
+	// }
 
 	private void Die()
 	{
