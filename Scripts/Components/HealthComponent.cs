@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Godot;
 
-public partial class HealthComponent : Node
+public partial class HealthComponent : Node2D
 {
     [Signal]
     public delegate void ChangeHealthEventHandler(int hp);

@@ -1,14 +1,13 @@
 [gd_scene format=3 uid="uid://dg0as2ds71fm0"]
 
-[ext_resource type="Script" uid="uid://gmkx4bljyw1e" path="res://sprites/player/player.cs" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://b1clho5cqw3ed" path="res://sprites/player/Player.cs" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bqb1mnkjn7u06" path="res://Scripts/Main.cs" id="1_w8jw1"]
 [ext_resource type="Texture2D" uid="uid://cbu6jfa065glj" path="res://slash.png" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://cs6bi0xt8sdm1" path="res://environment/Scenes/enemy.tscn" id="4_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://cu5cickw43rvq" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Idle_with_shadow.png" id="5_5ybq2"]
 [ext_resource type="Texture2D" uid="uid://da40ftif6anty" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Walk_with_shadow.png" id="6_p8xec"]
-[ext_resource type="Texture2D" uid="uid://3hl3wuc6exf" path="res://Assets/HealthBarEmpty32.png" id="7_25lod"]
 [ext_resource type="Script" uid="uid://jnqfgh4cl8u3" path="res://Scripts/Components/HealthComponent.cs" id="7_mkuwi"]
-[ext_resource type="Texture2D" uid="uid://b6rebp6mn4788" path="res://Assets/HealthBarFull32.png" id="8_ye0l1"]
+[ext_resource type="Script" uid="uid://dev245cp7tuxf" path="res://Scripts/Components/HealthUiComponent.cs" id="8_6rpkl"]
 [ext_resource type="PackedScene" uid="uid://ba1jkiahfxkfr" path="res://environment/Scenes/test_scene.tscn" id="9_ye0l1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
@@ -303,8 +302,11 @@ metadata/_aseprite_wizard_interface_config_ = {
 "slice_section": false
 }
 
-[node name="HealthComponent" type="Node" parent="Player" unique_id=836260883]
+[node name="HealthComponent" type="Node2D" parent="Player" unique_id=1880862254]
 script = ExtResource("7_mkuwi")
+
+[node name="HealthUiComponent" type="Node2D" parent="Player" unique_id=1709853325]
+script = ExtResource("8_6rpkl")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=952542637]
 wait_time = 2.0
@@ -354,15 +356,6 @@ text = "Restart"
 [node name="MenuButton" type="Button" parent="UI/GameOverPanel/VBoxContainer" unique_id=419425454]
 layout_mode = 2
 text = "Main Menu"
-
-[node name="HealthBar" type="TextureProgressBar" parent="UI" unique_id=335103791]
-offset_left = -2.999999
-offset_top = 496.0
-offset_right = 37.0
-offset_bottom = 536.0
-scale = Vector2(7, 7)
-texture_under = ExtResource("7_25lod")
-texture_progress = ExtResource("8_ye0l1")
 
 [node name="Test World Gen" parent="." unique_id=425486816 instance=ExtResource("9_ye0l1")]
 

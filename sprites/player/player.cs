@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Godot;
 
-public partial class player : CharacterBody2D
+public partial class Player : CharacterBody2D
 {
 	[Export] public float Speed = 500.0f;
 
@@ -15,26 +15,22 @@ public partial class player : CharacterBody2D
 	private Area2D attackArea;
 	private Sprite2D slashSprite;
 	private Timer attackTimer;
-	private TextureProgressBar healthBar;
 	private ArrayList power_list;
 
 	private HealthComponent healthComponent;
+	private HealthUiComponent healthUIComponent;
 
 	public override void _Ready()
 	{
-		attackPivot = GetNode<Node2D>("AttackPivot");
-		attackArea = GetNode<Area2D>("AttackPivot/AttackArea");
-		slashSprite = GetNode<Sprite2D>("AttackPivot/SlashSprite");
-		attackTimer = GetNode<Timer>("Timer");
-		healthBar = GetNode<TextureProgressBar>("../UI/HealthBar");
-		healthComponent = GetNode<HealthComponent>("HealthComponent"); 
-
+		this.initializeNodes();
+		this.healthUIComponent.SetMaxHealth(this.healthComponent.MAX_HEALTH); // initialize to max health
+		this.healthUIComponent.changeHealthUI(this.healthComponent.getHealth()); 
+		
 		attackArea.Monitoring = false;
 		power_list = new ArrayList(); // TODO: figure out some other C# collection that allows dynamic sizing
 
 		// 🔥 IMPORTANT: start hidden
 		slashSprite.Visible = false;
-		healthBar.Visible = true;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -54,6 +50,17 @@ public partial class player : CharacterBody2D
 			Attack();
 	}
 
+	// a method to hold Node initializations
+	public void initializeNodes()
+	{
+		attackPivot = GetNode<Node2D>("AttackPivot");
+		attackArea = GetNode<Area2D>("AttackPivot/AttackArea");
+		slashSprite = GetNode<Sprite2D>("AttackPivot/SlashSprite");
+		attackTimer = GetNode<Timer>("Timer");
+		healthComponent = GetNode<HealthComponent>("HealthComponent");
+		healthUIComponent = GetNode<HealthUiComponent>("HealthUiComponent");
+	}
+
 	public void pickup_power(Power power)
 	{
 		power_list.Add(power);
@@ -61,14 +68,14 @@ public partial class player : CharacterBody2D
 	}
 
 	private void updateEveryPower()
-    {
-        foreach (Power pow in power_list)
-		{
-			if (pow.execute_every_tick)
-			{
-				pow.update();
-			}
-		}
+	{
+		// foreach (Power pow in power_list)
+		// {
+		// 	if (pow.execute_every_tick)
+		// 	{
+		// 		pow.update();
+		// 	}
+		// }
 	}
 
 	private async void Attack()
@@ -99,21 +106,10 @@ public partial class player : CharacterBody2D
 	{
 		this.healthComponent.reduceHealth(amount);
 		GD.Print(this.healthComponent.getHealth());
-		//updateHealthUI();
+		this.healthUIComponent.changeHealthUI(this.healthComponent.getHealth());
 
 		if (this.healthComponent.getHealth() <= 0) {Die();}
 	}
-	
-	// private void updateHealthUI()
-	// {
-	// 	Tween tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
-	// 	if (tween != null)
-	// 	{
-	// 		tween.Kill();
-	// 	}
-	// 	tween = GetTree().CreateTween().SetTrans(Tween.TransitionType.Sine);
-	// 	tween.TweenProperty(healthBar, "value", this.hp, 1);
-	// }
 
 	private void Die()
 	{
