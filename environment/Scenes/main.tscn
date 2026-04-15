@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cu5cickw43rvq" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Idle_with_shadow.png" id="5_5ybq2"]
 [ext_resource type="Texture2D" uid="uid://da40ftif6anty" path="res://effects/PNG/Vampires3/With_shadow/Vampires3_Walk_with_shadow.png" id="6_p8xec"]
 [ext_resource type="Script" uid="uid://jnqfgh4cl8u3" path="res://Scripts/Components/HealthComponent.cs" id="7_mkuwi"]
-[ext_resource type="Script" uid="uid://bg6g6qj2ghgre" path="res://Scripts/Components/HealthUiComponent.cs" id="8_ye0l1"]
+[ext_resource type="Script" uid="uid://bg6g6qj2ghgre" path="res://Scripts/Components/HealthUIComponent.cs" id="8_ye0l1"]
+[ext_resource type="Script" uid="uid://c822y2w48fkdr" path="res://environment/Scenes/AttackComponent.cs" id="9_mkuwi"]
 [ext_resource type="PackedScene" uid="uid://ba1jkiahfxkfr" path="res://environment/Scenes/test_scene.tscn" id="9_ye0l1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
@@ -248,6 +249,9 @@ EnemyScene = ExtResource("4_1bvp3")
 z_index = 5
 collision_mask = 2
 script = ExtResource("1_0xm2m")
+
+[node name="AttackComponent" type="Node" parent="Player" unique_id=1713545025]
+script = ExtResource("9_mkuwi")
 
 [node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1959834516]
 

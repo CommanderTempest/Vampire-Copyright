@@ -7,14 +7,6 @@ public partial class player : CharacterBody2D
 {
 	[Export] public float Speed = 500.0f;
 
-	private bool attacking = false;
-
-	private Tween tween;
-
-	private Node2D attackPivot;
-	private Area2D attackArea;
-	private Sprite2D slashSprite;
-	private Timer attackTimer;
 	private ArrayList power_list;
 
 	private HealthComponent healthComponent;
@@ -23,51 +15,48 @@ public partial class player : CharacterBody2D
 
 	private bool shieldPowerActive = false;
 
+	private AttackComponent attackComponent;
 
 	public override void _Ready()
 	{
-		this.initializeNodes();
-		this.healthUIComponent.SetMaxHealth(this.healthComponent.MAX_HEALTH); // initialize to max health
-		this.healthUIComponent.changeHealthUI(this.healthComponent.getHealth()); 
-		
-		attackArea.Monitoring = false;
-		power_list = new ArrayList(); // TODO: figure out some other C# collection that allows dynamic sizing
+		initializeNodes();
 
-		// 🔥 IMPORTANT: start hidden
-		slashSprite.Visible = false;
+		healthUIComponent.SetMaxHealth(healthComponent.MAX_HEALTH);
+		healthUIComponent.changeHealthUI(healthComponent.getHealth());
 
-		//this.pickup_power(new ShieldPower());
+		power_list = new ArrayList();
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-
-		// tentatively deleted this, why should the player stop moving for attacks
-		//Velocity = attacking ? Vector2.Zero : direction * Speed;
 		Velocity = direction * Speed;
 		MoveAndSlide();
 	}
 
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("attack") && !attacking)
-			Attack();
+		if (Input.IsMouseButtonPressed(MouseButton.Left))
+			GD.Print("LEFT CLICK HELD");
+
+		if (Input.IsActionJustPressed("attack"))
+		{
+			GD.Print("ATTACK ACTION FIRED");
+			attackComponent.TryAttack();
+		}
 	}
 
 	private void setShieldPowerActive(bool value)
 	{
-		if (!value) {this.shieldPower.shieldDeactivate();}
-		this.shieldPowerActive = value;
+		if (!value)
+			shieldPower.shieldDeactivate();
+
+		shieldPowerActive = value;
 	}
 
-	// a method to hold Node initializations
 	public void initializeNodes()
 	{
-		attackPivot = GetNode<Node2D>("AttackPivot");
-		attackArea = GetNode<Area2D>("AttackPivot/AttackArea");
-		slashSprite = GetNode<Sprite2D>("AttackPivot/SlashSprite");
-		attackTimer = GetNode<Timer>("Timer");
+		attackComponent = GetNode<AttackComponent>("AttackComponent");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		healthUIComponent = GetNode<HealthUiComponent>("HealthUiComponent");
 	}
@@ -76,11 +65,12 @@ public partial class player : CharacterBody2D
 	{
 		if (power is ShieldPower)
 		{
-			this.shieldPower = (ShieldPower) power;
-			this.shieldPower.ShieldActivate += activateShield;
-			this.shieldPower.activate();
+			shieldPower = (ShieldPower)power;
+			shieldPower.ShieldActivate += activateShield;
+			shieldPower.activate();
 		}
-		this.AddChild(this.shieldPower);
+
+		AddChild(shieldPower);
 		power_list.Add(power);
 	}
 
@@ -89,39 +79,16 @@ public partial class player : CharacterBody2D
 		setShieldPowerActive(true);
 	}
 
-	private async void Attack()
-	{
-		attacking = true;
-
-		Vector2 mouseDirection = (GetGlobalMousePosition() - GlobalPosition).Normalized();
-		if (mouseDirection == Vector2.Zero)
-			mouseDirection = Vector2.Right;
-
-		// ONLY rotate pivot → keeps your exact Inspector transformation
-		attackPivot.Rotation = mouseDirection.Angle();
-
-		attackArea.Monitoring = true;
-		slashSprite.Visible = true;
-
-		GD.Print("Attack shown");
-
-		attackTimer.Start();
-		await ToSignal(attackTimer, Timer.SignalName.Timeout);
-
-		attackArea.Monitoring = false;
-		slashSprite.Visible = false;
-		attacking = false;
-	}
-
 	public void TakeDamage(int amount)
 	{
-		if (!this.shieldPowerActive)
+		if (!shieldPowerActive)
 		{
-			this.healthComponent.reduceHealth(amount);
-			GD.Print(this.healthComponent.getHealth());
-			this.healthUIComponent.changeHealthUI(this.healthComponent.getHealth());
+			healthComponent.reduceHealth(amount);
+			GD.Print(healthComponent.getHealth());
+			healthUIComponent.changeHealthUI(healthComponent.getHealth());
 
-			if (this.healthComponent.getHealth() <= 0) {Die();}
+			if (healthComponent.getHealth() <= 0)
+				Die();
 		}
 		else
 		{
@@ -136,14 +103,5 @@ public partial class player : CharacterBody2D
 		GetTree().CurrentScene.Call("ShowGameOver");
 		SetPhysicsProcess(false);
 		Visible = false;
-	}
-
-	private void OnAttackAreaBodyEntered(Node body)
-	{
-		if (body.Name == "Enemy")
-		{
-			GetParent().Call("AddScore", 1);
-			body.QueueFree();
-		}
 	}
 }
