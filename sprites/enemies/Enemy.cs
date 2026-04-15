@@ -8,15 +8,24 @@ public partial class Enemy : CharacterBody2D
 	private Node2D player;
 	private bool canDamage = true;
 
+	private Sprite2D sprite;
+
 	public override void _Ready()
 	{
 		player = GetTree().CurrentScene.GetNodeOrNull<Node2D>("Player");
+		sprite = GetNode<Sprite2D>("Sprite2D");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!IsInstanceValid(player))
 			return;
+		
+		if (sprite != null)
+		{
+			//transform.Basis = new Basis(axis, rotationAmount) * transform.Basis;
+			sprite.Rotate(-0.05f);
+		}
 
 		Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
 		Velocity = direction * Speed;
