@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Godot;
 
-public partial class Player : CharacterBody2D
+public partial class player : CharacterBody2D
 {
 	[Export] public float Speed = 500.0f;
 
@@ -21,16 +21,8 @@ public partial class Player : CharacterBody2D
 	private HealthUiComponent healthUIComponent;
 	private ShieldPower shieldPower;
 
-	private bool shieldPowerActive {
-		get => shieldPowerActive;
-		set
-		{
-			if (value == false)
-			{
-				this.shieldPower.shieldDeactivate();
-			}
-		} 
-	}
+	private bool shieldPowerActive = false;
+
 
 	public override void _Ready()
 	{
@@ -44,7 +36,7 @@ public partial class Player : CharacterBody2D
 		// 🔥 IMPORTANT: start hidden
 		slashSprite.Visible = false;
 
-		this.pickup_power(new ShieldPower());
+		//this.pickup_power(new ShieldPower());
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -61,6 +53,12 @@ public partial class Player : CharacterBody2D
 	{
 		if (Input.IsActionJustPressed("attack") && !attacking)
 			Attack();
+	}
+
+	private void setShieldPowerActive(bool value)
+	{
+		if (!value) {this.shieldPower.shieldDeactivate();}
+		this.shieldPowerActive = value;
 	}
 
 	// a method to hold Node initializations
@@ -80,14 +78,15 @@ public partial class Player : CharacterBody2D
 		{
 			this.shieldPower = (ShieldPower) power;
 			this.shieldPower.ShieldActivate += activateShield;
+			this.shieldPower.activate();
 		}
+		this.AddChild(this.shieldPower);
 		power_list.Add(power);
 	}
 
 	private void activateShield()
 	{
-		GD.Print("attempting to turn on at least");
-		this.shieldPowerActive = true;
+		setShieldPowerActive(true);
 	}
 
 	private async void Attack()
@@ -127,9 +126,8 @@ public partial class Player : CharacterBody2D
 		else
 		{
 			GD.Print("Shield Power blocked an attack");
-			this.shieldPowerActive = false;
+			setShieldPowerActive(false);
 		}
-		
 	}
 
 	private void Die()

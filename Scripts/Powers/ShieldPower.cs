@@ -16,8 +16,10 @@ public partial class ShieldPower : Power
 		cooldownTimer = new Timer();
 		cooldownTimer.WaitTime = MAX_COOLDOWN;
 		this.AddChild(cooldownTimer);
-		//AddUserSignal("ShieldActivate");
-		//Activate power
+	}
+
+	public void activate()
+	{
 		EmitSignal(SignalName.ShieldActivate);
 	}
 
@@ -26,7 +28,7 @@ public partial class ShieldPower : Power
 	{
 		this.cooldownTimer.WaitTime = MAX_COOLDOWN;
 		this.cooldownTimer.Start();
-		await ToSignal(cooldownTimer, Timer.SignalName.Timeout);
+		await ToSignal(cooldownTimer, "timeout");
 		EmitSignal(SignalName.ShieldActivate);
 	}
 
