@@ -6,7 +6,8 @@ using Godot;
 public partial class player : CharacterBody2D
 {
 	[Export] public float Speed = 500.0f;
-
+	private AnimationTree _animationTree;
+	
 	private bool attacking = false;
 
 	private Tween tween;
@@ -20,6 +21,7 @@ public partial class player : CharacterBody2D
 	private HealthComponent healthComponent;
 	private HealthUiComponent healthUIComponent;
 	private ShieldPower shieldPower;
+	private AnimationNodeStateMachinePlayback _playback;
 
 	private bool shieldPowerActive = false;
 
@@ -37,18 +39,54 @@ public partial class player : CharacterBody2D
 		slashSprite.Visible = false;
 
 		//this.pickup_power(new ShieldPower());
+		_animationTree = GetNode<AnimationTree>("Player/AnimationTree");
+		_animationTree.Active = true;
+		_playback = (AnimationNodeStateMachinePlayback)_animationTree.Get("parameters/playback");
+		// this will set 
 	}
+	private void UpdateAnimationParameters()
+{
+	Vector2 direction = Velocity;
+
+	// Prevent jitter when standing still
+	if (direction.Length() > 0)
+		direction = direction.Normalized();
+
+	_animationTree.Set("parameters/Idle/blend_position", direction);
+	_animationTree.Set("parameters/Run/blend_position", direction);
+
+   /* if (attacking)
+	{
+		_playback.Travel("Attack");
+	}
+	else if 
+	TODO will add for attacks in the future */ 
+	if (direction.Length() > 0)
+	{
+		_playback.Travel("Run");
+	}
+	else
+	{
+		_playback.Travel("Idle");
+	}
+}
 
 	public override void _PhysicsProcess(double delta)
 	{
+		
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-
+		
 		// tentatively deleted this, why should the player stop moving for attacks
 		//Velocity = attacking ? Vector2.Zero : direction * Speed;
 		Velocity = direction * Speed;
 		MoveAndSlide();
+		UpdateAnimationParameters();
+		// this will update the charaters animation
+		
 	}
-
+	
+	
+	
 	public override void _Process(double delta)
 	{
 		if (Input.IsActionJustPressed("attack") && !attacking)
