@@ -66,10 +66,13 @@ public partial class AttackComponent : Node
 
 	private void OnAttackAreaBodyEntered(Node body)
 	{
-		if (body.Name == "Enemy")
+		
+		if (body is Enemy)
 		{
-			GetParent().GetParent().Call("AddScore", 1);
-			body.QueueFree();
+			Enemy testBody = body as Enemy; //idk why I had to do it this way either
+			testBody.die();
+			//GetParent().GetParent().Call("AddScore", 1);
+			
 		}
 	}
 }

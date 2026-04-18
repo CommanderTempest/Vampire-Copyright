@@ -1,35 +1,49 @@
 using System.Collections.Generic;
-using System.Numerics;
+using Godot;
 
 public interface IEnemyFactory
 {
-    public void createEnemy();
+    public Enemy createEnemy();
 }
 
 public class EnemyFactory : IEnemyFactory
 {
-    private Dictionary<int,Enemy> enemy_list;
-    private int generationNum = 0;
+    private static Dictionary<int,Enemy> enemy_list = new Dictionary<int, Enemy>();
+    private static int generationNum = 0;
 
-    public void createEnemy()
+    public Enemy createEnemy()
     {
-        throw new System.NotImplementedException();
         Enemy newEnemy = new Enemy();
 
         // Attach EnemyDeath signal to the Defeat method
         newEnemy.EnemyDeath += Defeat;
 
         enemy_list.Add(generationNum++, newEnemy);
+        return newEnemy;
+    }
+
+    public Enemy createEnemy(PackedScene scene)
+    {
+        Enemy newEnemy = scene.Instantiate() as Enemy;
+
+        // Attach EnemyDeath signal to the Defeat method
+        newEnemy.EnemyDeath += Defeat;
+
+        enemy_list.Add(generationNum++, newEnemy);
+        return newEnemy;
     }
 
     // Return a vector2 position to place the enemy at
-    private Vector2 positionEnemy()
+    public void positionEnemy(Enemy enemy)
     {
-        return new Vector2(0,0);
+        enemy.GlobalPosition = new Godot.Vector2(
+			(float)GD.RandRange(50, 1100),
+			(float)GD.RandRange(50, 600)
+		);
     }
 
-    private void Defeat()
+    private void Defeat(Enemy enemy)
     {
-        
+        enemy.QueueFree();
     }
 }

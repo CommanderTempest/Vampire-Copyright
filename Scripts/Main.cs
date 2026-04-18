@@ -12,12 +12,15 @@ public partial class Main : Node2D
 	private Label finalScoreLabel;
 	private Timer spawnTimer;
 
+	private EnemyFactory enemyFactory;
+
 	public override void _Ready()
 	{
 		scoreLabel = GetNode<Label>("UI/ScoreLabel");
 		gameOverPanel = GetNode<Control>("UI/GameOverPanel");
 		finalScoreLabel = GetNode<Label>("UI/GameOverPanel/VBoxContainer/FinalScoreLabel");
 		spawnTimer = GetNode<Timer>("SpawnTimer");
+		enemyFactory = new EnemyFactory();
 
 		GD.Print("Main ready");
 		GD.Print("EnemyScene assigned: ", EnemyScene != null);
@@ -43,13 +46,9 @@ public partial class Main : Node2D
 			return;
 		}
 
-		Node2D enemy = EnemyScene.Instantiate<Node2D>();
-		enemy.GlobalPosition = new Vector2(
-			(float)GD.RandRange(50, 1100),
-			(float)GD.RandRange(50, 600)
-		);
-
+		Enemy enemy = enemyFactory.createEnemy(EnemyScene);
 		AddChild(enemy);
+		enemyFactory.positionEnemy(enemy);
 		GD.Print("Enemy spawned");
 	}
 

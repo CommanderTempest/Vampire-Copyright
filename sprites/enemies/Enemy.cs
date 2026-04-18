@@ -3,7 +3,7 @@ using Godot;
 public partial class Enemy : CharacterBody2D
 {
 	[Signal]
-	public delegate void EnemyDeathEventHandler();
+	public delegate void EnemyDeathEventHandler(Enemy enemy);
 
 
 	[Export] public float Speed = 120.0f;
@@ -27,7 +27,6 @@ public partial class Enemy : CharacterBody2D
 		
 		if (sprite != null)
 		{
-			//transform.Basis = new Basis(axis, rotationAmount) * transform.Basis;
 			sprite.Rotate(-0.05f);
 		}
 
@@ -46,5 +45,15 @@ public partial class Enemy : CharacterBody2D
 			await ToSignal(GetTree().CreateTimer(1.0f), SceneTreeTimer.SignalName.Timeout);
 			canDamage = true;
 		}
+	}
+	
+	public void die()
+	{
+		EmitSignal(SignalName.EnemyDeath, this);
+	}
+
+	public void test()
+	{
+		GD.Print("Test");
 	}
 }
