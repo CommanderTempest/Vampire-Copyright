@@ -2,6 +2,10 @@ using Godot;
 
 public partial class Enemy : CharacterBody2D
 {
+	[Signal]
+	public delegate void EnemyDeathEventHandler();
+
+
 	[Export] public float Speed = 120.0f;
 	[Export] public int Damage = 1;
 
