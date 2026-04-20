@@ -8,13 +8,12 @@ public partial class player : CharacterBody2D
 	[Export] public float Speed = 500.0f;
 
 	private ArrayList power_list;
-
+	private AnimatedSprite2D animatedSprite;
+	private Vector2 lastDirection = Vector2.Down;
 	private HealthComponent healthComponent;
 	private HealthUiComponent healthUIComponent;
 	private ShieldPower shieldPower;
-
 	private bool shieldPowerActive = false;
-
 	private AttackComponent attackComponent;
 
 	public override void _Ready()
@@ -25,6 +24,7 @@ public partial class player : CharacterBody2D
 		healthUIComponent.changeHealthUI(healthComponent.getHealth());
 
 		power_list = new ArrayList();
+		UpdateAnimation(Vector2.Zero);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -32,8 +32,60 @@ public partial class player : CharacterBody2D
 		Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
 		Velocity = direction * Speed;
 		MoveAndSlide();
+		UpdateAnimation(direction);
+	}
+	private void UpdateAnimation(Vector2 direction)
+{
+	if (animatedSprite == null)
+		return;
+
+	if (direction != Vector2.Zero)
+		lastDirection = direction;
+
+	string animationName;
+
+	if (direction == Vector2.Zero)
+	{
+		if (Mathf.Abs(lastDirection.X) > Mathf.Abs(lastDirection.Y))
+		{
+			animationName = "Idle_side";
+			animatedSprite.FlipH = lastDirection.X < 0;
+		}
+		else if (lastDirection.Y < 0)
+		{
+			animationName = "Idle_up";
+			animatedSprite.FlipH = false;
+		}
+		else
+		{
+			animationName = "Idle_down";
+			animatedSprite.FlipH = false;
+		}
+	}
+	else
+	{
+		if (Mathf.Abs(direction.X) > Mathf.Abs(direction.Y))
+		{
+			animationName = "Run_side";
+			animatedSprite.FlipH = direction.X < 0;
+		}
+		else if (direction.Y < 0)
+		{
+			animationName = "Run_up";
+			animatedSprite.FlipH = false;
+		}
+		else
+		{
+			animationName = "Run_down";
+			animatedSprite.FlipH = false;
+		}
 	}
 
+	if (animatedSprite.Animation != animationName || !animatedSprite.IsPlaying())
+		animatedSprite.Play(animationName);
+}
+
+	
 	public override void _Process(double delta)
 	{
 		if (Input.IsMouseButtonPressed(MouseButton.Left))
@@ -59,6 +111,14 @@ public partial class player : CharacterBody2D
 		attackComponent = GetNode<AttackComponent>("AttackComponent");
 		healthComponent = GetNode<HealthComponent>("HealthComponent");
 		healthUIComponent = GetNode<HealthUiComponent>("HealthUiComponent");
+		animatedSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+		
+		Node spriteNode = GetNode("AnimatedSprite2D");
+	GD.Print("spriteNode runtime type: ", spriteNode.GetType().Name);
+
+	animatedSprite = spriteNode as AnimatedSprite2D;
+	GD.Print("cast worked: ", animatedSprite != null);
+	
 	}
 
 	public void pickup_power(Power power)
@@ -104,4 +164,5 @@ public partial class player : CharacterBody2D
 		SetPhysicsProcess(false);
 		Visible = false;
 	}
+	
 }

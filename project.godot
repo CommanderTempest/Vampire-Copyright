@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Vampire Copyright"
-run/main_scene="uid://ct5l2wqgo5voq"
+run/main_scene="uid://dg0as2ds71fm0"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
