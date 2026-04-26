@@ -5,8 +5,6 @@ public partial class Enemy : Entity
 	[Signal]
 	public delegate void EnemyDeathEventHandler(Enemy enemy);
 
-
-	[Export] public float Speed = 120.0f;
 	[Export] public int Damage = 1;
 
 	private Node2D player;

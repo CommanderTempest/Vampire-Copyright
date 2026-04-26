@@ -12,7 +12,7 @@ public abstract partial class Entity : CharacterBody2D
     private HurtboxComponent hurtbox;
     private HitboxComponent hitbox;
 
-    public void _Ready()
+    public override void _Ready()
     {
         hurtbox = GetNode<HurtboxComponent>("Hurtbox");
         hitbox = GetNode<HitboxComponent>("Hitbox");

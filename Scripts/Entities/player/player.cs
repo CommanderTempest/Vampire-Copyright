@@ -5,8 +5,6 @@ using Godot;
 
 public partial class player : Entity
 {
-	[Export] public float Speed = 500.0f;
-
 	private ArrayList power_list;
 
 	private HealthComponent healthComponent;

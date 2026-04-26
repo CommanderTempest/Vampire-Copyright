@@ -13,7 +13,7 @@ public partial class HurtboxComponent : Area2D
         if (body != owner)
         {
             // may want to check if body is actually a hitbox component instead
-            body.TakeDamage(1);
+            body.TakeEntityDamage(1);
         }
     }
 }
