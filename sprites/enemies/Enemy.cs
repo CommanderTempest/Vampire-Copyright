@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class Enemy : CharacterBody2D
+public partial class Enemy : Entity
 {
 	[Signal]
 	public delegate void EnemyDeathEventHandler(Enemy enemy);

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Godot;
 
-public partial class player : CharacterBody2D
+public partial class player : Entity
 {
 	[Export] public float Speed = 500.0f;
 
@@ -20,7 +20,7 @@ public partial class player : CharacterBody2D
 	public override void _Ready()
 	{
 		initializeNodes();
-
+		PlayerSingleton.SetPlayer(this);
 		healthUIComponent.SetMaxHealth(healthComponent.MAX_HEALTH);
 		healthUIComponent.changeHealthUI(healthComponent.getHealth());
 

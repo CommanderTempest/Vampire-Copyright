@@ -15,6 +15,10 @@ run/main_scene="uid://ct5l2wqgo5voq"
 config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+PlayerSingleton="*uid://mxfa811vo12x"
+
 [dotnet]
 
 project/assembly_name="Hunter Prototype"
