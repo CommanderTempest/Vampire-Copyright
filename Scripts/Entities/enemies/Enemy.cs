@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Godot;
 
 public partial class Enemy : Entity
@@ -51,8 +52,8 @@ public partial class Enemy : Entity
 		EmitSignal(SignalName.EnemyDeath, this);
 	}
 
-	public void test()
+	protected override void entityDeath()
 	{
-		GD.Print("Test");
+		EmitSignal(SignalName.EnemyDeath, this);
 	}
 }

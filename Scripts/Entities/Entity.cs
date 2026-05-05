@@ -10,6 +10,7 @@ public abstract partial class Entity : CharacterBody2D
 
     private HurtboxComponent hurtbox;
     private HitboxComponent hitbox;
+    private HealthComponent healthComponent;
 
     public override void _Ready()
     {
@@ -24,5 +25,20 @@ public abstract partial class Entity : CharacterBody2D
         {
             GD.PushError(this.Name + " is missing a hitbox!");
         }
+    }
+
+    protected void takeDamage(int amount)
+    {
+        this.healthComponent.reduceHealth(amount);
+        if (this.healthComponent.getHealth() <= 0)
+        {
+            // run death function, enemy will override this
+            this.entityDeath();
+        }
+    }
+
+    protected virtual void entityDeath()
+    {
+        // die or sumthin
     }
 }

@@ -46,6 +46,7 @@ public class EnemyFactory : IEnemyFactory
 
     private void Defeat(Enemy enemy)
     {
+        // play an animation and then:
         enemy.QueueFree();
     }
 }
