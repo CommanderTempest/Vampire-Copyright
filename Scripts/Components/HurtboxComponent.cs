@@ -1,5 +1,8 @@
 /*
-This component is used to signal events to fire when it is interacted with, this component is designed to "deal" damage on contact with a Hitbox
+This component is used to signal events to fire when it is interacted with, 
+this component is designed to "deal" damage on contact with a Hitbox
+
+Deals damage to Hitbox
 */
 using Godot;
 

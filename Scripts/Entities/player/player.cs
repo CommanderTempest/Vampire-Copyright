@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using Godot;
 
 public partial class player : Entity
@@ -17,6 +18,7 @@ public partial class player : Entity
 
 	public override void _Ready()
 	{
+		//base._Ready();
 		initializeNodes();
 		PlayerSingleton.SetPlayer(this);
 		healthUIComponent.SetMaxHealth(healthComponent.MAX_HEALTH);

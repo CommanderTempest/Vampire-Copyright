@@ -37,9 +37,10 @@ public class EnemyFactory : IEnemyFactory
     public void positionEnemy(Enemy enemy)
     {
         Vector2 playerPos = PlayerSingleton.GetPlayer().GlobalPosition;
-        enemy.GlobalPosition = playerPos + new Godot.Vector2(
-			(float)GD.RandRange(50, 1100),
-			(float)GD.RandRange(50, 600)
+        // Take player pos, add a static distance (400) to it, and then randomize a range on top of that
+        enemy.GlobalPosition = playerPos + new Godot.Vector2(400,400) + new Godot.Vector2(
+			(float)GD.RandRange(-1000, 1000),
+			(float)GD.RandRange(-1000, 1000)
 		);
     }
 

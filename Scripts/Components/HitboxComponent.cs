@@ -1,5 +1,7 @@
 /*
 This class is responsible for detecting collisions
+
+Takes damage from a Hurtbox
 */
 
 using Godot;
