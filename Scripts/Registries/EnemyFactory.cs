@@ -36,7 +36,8 @@ public class EnemyFactory : IEnemyFactory
     // Return a vector2 position to place the enemy at
     public void positionEnemy(Enemy enemy)
     {
-        enemy.GlobalPosition = new Godot.Vector2(
+        Vector2 playerPos = PlayerSingleton.GetPlayer().GlobalPosition;
+        enemy.GlobalPosition = playerPos + new Godot.Vector2(
 			(float)GD.RandRange(50, 1100),
 			(float)GD.RandRange(50, 600)
 		);
