@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://cs6bi0xt8sdm1"]
 
-[ext_resource type="Script" uid="uid://bf6ffaj25lw61" path="res://sprites/enemies/Enemy.cs" id="1_67g0o"]
+[ext_resource type="Script" uid="uid://bf6ffaj25lw61" path="res://Scripts/Entities/enemies/Enemy.cs" id="1_67g0o"]
 [ext_resource type="Texture2D" uid="uid://c1tx6dlkoi8m2" path="res://Assets/32rolling.png" id="2_67g0o"]
+[ext_resource type="Script" uid="uid://xdctwwbqbsnv" path="res://Scripts/Components/HitboxComponent.cs" id="3_eyrtx"]
+[ext_resource type="Script" uid="uid://b3nglt5pibe3j" path="res://Scripts/Components/HurtboxComponent.cs" id="4_sntgk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h2yge"]
 size = Vector2(1028, 1026)
@@ -23,8 +25,16 @@ shape = SubResource("RectangleShape2D_h2yge")
 
 [node name="Hitbox" type="Area2D" parent="." unique_id=1104990345]
 collision_layer = 2
+script = ExtResource("3_eyrtx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=593220754]
 shape = SubResource("RectangleShape2D_7mycd")
 
-[connection signal="body_entered" from="Hitbox" to="." method="OnHitboxBodyEntered"]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1192102697]
+collision_layer = 2
+script = ExtResource("4_sntgk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1352162565]
+shape = SubResource("RectangleShape2D_7mycd")
+
+[connection signal="body_entered" from="Hurtbox" to="." method="OnHitboxBodyEntered"]

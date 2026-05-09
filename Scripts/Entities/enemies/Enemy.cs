@@ -15,7 +15,7 @@ public partial class Enemy : Entity
 
 	public override void _Ready()
 	{
-		//base._Ready();
+		base._Ready();
 		player = GetTree().CurrentScene.GetNodeOrNull<Node2D>("Player");
 		sprite = GetNode<Sprite2D>("Sprite2D");
 	}

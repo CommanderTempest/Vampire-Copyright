@@ -4,13 +4,13 @@ public partial class Main : Node2D
 {
 	[Export] public PackedScene EnemyScene;
 
-	private int score = 0;
-	private bool gameOver = false;
+	private static int score = 0;
+	private static bool gameOver = false;
 
-	private Label scoreLabel;
-	private Control gameOverPanel;
-	private Label finalScoreLabel;
-	private Timer spawnTimer;
+	private static Label scoreLabel;
+	private static Control gameOverPanel;
+	private static Label finalScoreLabel;
+	private static Timer spawnTimer;
 
 	private EnemyFactory enemyFactory;
 
@@ -66,7 +66,7 @@ public partial class Main : Node2D
 		scoreLabel.Text = "Score: " + score;
 	}
 
-	public void ShowGameOver()
+	public static void ShowGameOver()
 	{
 		GD.Print("SHOW GAME OVER CALLED");
 
@@ -77,16 +77,13 @@ public partial class Main : Node2D
 
 		GD.Print("GameOverPanel visible: ", gameOverPanel.Visible);
 
-		foreach (Node child in GetChildren())
-		{
-			if (child is Enemy enemy)
-				enemy.SetPhysicsProcess(false);
-		}
+		EnemyFactory.stopEnemies();
 	}
 
 	private void OnRestartButtonPressed()
 	{
 		GetTree().ReloadCurrentScene();
+		gameOver = false;
 	}
 
 	private void OnMenuButtonPressed()

@@ -10,6 +10,8 @@
 [ext_resource type="Script" uid="uid://bg6g6qj2ghgre" path="res://Scripts/Components/HealthUiComponent.cs" id="8_ye0l1"]
 [ext_resource type="Script" uid="uid://bwp3p8esxi13t" path="res://Scripts/Components/AttackComponent.cs" id="9_mkuwi"]
 [ext_resource type="PackedScene" uid="uid://ba1jkiahfxkfr" path="res://environment/Scenes/test_scene.tscn" id="9_ye0l1"]
+[ext_resource type="Script" uid="uid://xdctwwbqbsnv" path="res://Scripts/Components/HitboxComponent.cs" id="10_6rpkl"]
+[ext_resource type="Script" uid="uid://b3nglt5pibe3j" path="res://Scripts/Components/HurtboxComponent.cs" id="11_21f7i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1bvp3"]
 size = Vector2(73, 47)
@@ -241,6 +243,9 @@ animations = [{
 "speed": 6.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21f7i"]
+size = Vector2(104, 79)
+
 [node name="Level" type="Node2D" unique_id=1615081788]
 script = ExtResource("1_w8jw1")
 EnemyScene = ExtResource("4_1bvp3")
@@ -311,6 +316,20 @@ script = ExtResource("7_mkuwi")
 
 [node name="HealthUiComponent" type="Node2D" parent="Player" unique_id=1709853325]
 script = ExtResource("8_ye0l1")
+
+[node name="Hitbox" type="Area2D" parent="Player" unique_id=1708041918]
+script = ExtResource("10_6rpkl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hitbox" unique_id=740362724]
+position = Vector2(5, -29.5)
+shape = SubResource("RectangleShape2D_21f7i")
+
+[node name="Hurtbox" type="Area2D" parent="Player" unique_id=1193266783]
+script = ExtResource("11_21f7i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hurtbox" unique_id=304498055]
+position = Vector2(5, -29.5)
+shape = SubResource("RectangleShape2D_21f7i")
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=952542637]
 wait_time = 2.0

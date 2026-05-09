@@ -8,14 +8,17 @@ public abstract partial class Entity : CharacterBody2D
 {
     [Export] public float Speed = 500.0f;
 
-    private HurtboxComponent hurtbox;
-    private HitboxComponent hitbox;
-    private HealthComponent healthComponent;
+    protected HurtboxComponent hurtbox;
+    protected HitboxComponent hitbox;
+    protected HealthComponent healthComponent;
 
     public override void _Ready()
     {
         hurtbox = GetNode<HurtboxComponent>("Hurtbox");
         hitbox = GetNode<HitboxComponent>("Hitbox");
+
+        healthComponent = new HealthComponent();
+        this.AddChild(healthComponent);
 
         if (hurtbox == null)
         {
@@ -25,9 +28,11 @@ public abstract partial class Entity : CharacterBody2D
         {
             GD.PushError(this.Name + " is missing a hitbox!");
         }
+
+        hitbox.TakeDamage += takeDamage;
     }
 
-    protected void takeDamage(int amount)
+    protected virtual void takeDamage(int amount)
     {
         this.healthComponent.reduceHealth(amount);
         if (this.healthComponent.getHealth() <= 0)
@@ -37,8 +42,5 @@ public abstract partial class Entity : CharacterBody2D
         }
     }
 
-    protected virtual void entityDeath()
-    {
-        // die or sumthin
-    }
+    protected abstract void entityDeath();
 }

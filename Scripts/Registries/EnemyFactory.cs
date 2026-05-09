@@ -8,8 +8,7 @@ public interface IEnemyFactory
 
 public class EnemyFactory : IEnemyFactory
 {
-    private static Dictionary<int,Enemy> enemy_list = new Dictionary<int, Enemy>();
-    private static int generationNum = 0;
+    private static LinkedList<Enemy> enemy_list = new LinkedList<Enemy>();
 
     public Enemy createEnemy()
     {
@@ -18,7 +17,7 @@ public class EnemyFactory : IEnemyFactory
         // Attach EnemyDeath signal to the Defeat method
         newEnemy.EnemyDeath += Defeat;
 
-        enemy_list.Add(generationNum++, newEnemy);
+        enemy_list.AddLast(newEnemy);
         return newEnemy;
     }
 
@@ -29,7 +28,7 @@ public class EnemyFactory : IEnemyFactory
         // Attach EnemyDeath signal to the Defeat method
         newEnemy.EnemyDeath += Defeat;
 
-        enemy_list.Add(generationNum++, newEnemy);
+        enemy_list.AddLast(newEnemy);
         return newEnemy;
     }
 
@@ -44,9 +43,27 @@ public class EnemyFactory : IEnemyFactory
 		);
     }
 
+    public static void stopEnemies()
+    {
+        foreach (Enemy enemy in enemy_list)
+        {
+            enemy.SetPhysicsProcess(false);
+        }
+    }
+
+    public static void reloadScene()
+    {
+        foreach (Enemy enemy in enemy_list)
+        {
+            enemy.SetPhysicsProcess(true);
+        }
+    }
+
     private void Defeat(Enemy enemy)
     {
         // play an animation and then:
+
+        enemy_list.Remove(enemy);
         enemy.QueueFree();
     }
 }

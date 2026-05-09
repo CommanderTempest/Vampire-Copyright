@@ -8,7 +8,6 @@ public partial class player : Entity
 {
 	private ArrayList power_list;
 
-	private HealthComponent healthComponent;
 	private HealthUiComponent healthUIComponent;
 	private ShieldPower shieldPower;
 
@@ -18,7 +17,7 @@ public partial class player : Entity
 
 	public override void _Ready()
 	{
-		//base._Ready();
+		base._Ready();
 		initializeNodes();
 		PlayerSingleton.SetPlayer(this);
 		healthUIComponent.SetMaxHealth(healthComponent.MAX_HEALTH);
@@ -79,16 +78,13 @@ public partial class player : Entity
 		setShieldPowerActive(true);
 	}
 
-	public void TakeDamage(int amount)
+	protected override void takeDamage(int amount)
 	{
 		if (!shieldPowerActive)
 		{
-			healthComponent.reduceHealth(amount);
-			GD.Print(healthComponent.getHealth());
+			base.takeDamage(amount);
+			GD.Print(this.healthComponent.getHealth());
 			healthUIComponent.changeHealthUI(healthComponent.getHealth());
-
-			if (healthComponent.getHealth() <= 0)
-				Die();
 		}
 		else
 		{
@@ -97,7 +93,7 @@ public partial class player : Entity
 		}
 	}
 
-	private void Die()
+	protected override void entityDeath()
 	{
 		GD.Print("PLAYER DIED");
 		GetTree().CurrentScene.Call("ShowGameOver");

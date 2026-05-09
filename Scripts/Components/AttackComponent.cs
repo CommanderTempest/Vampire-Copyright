@@ -66,13 +66,10 @@ public partial class AttackComponent : Node
 
 	private void OnAttackAreaBodyEntered(Node body)
 	{
-		
 		if (body is Enemy)
 		{
 			Enemy testBody = body as Enemy; //idk why I had to do it this way either
 			testBody.die();
-			//GetParent().GetParent().Call("AddScore", 1);
-			
 		}
 	}
 }
